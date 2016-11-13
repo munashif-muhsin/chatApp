@@ -27,56 +27,32 @@
   <body class="black">
     <div class="container">
         <div ng-controller="roomCtrl" class="jumbotron chatClass">
-            <div class="chat" overflowx="auto">
+            <div class="chat" overflow="auto" id="chatDiv">
                 <ul type="none">
-                    <li><div class="text">
-                        <span>Name</span>
-                        <p>
-                            message
-                        </p>
-                    </div></li>
-                    <li><div class="text">
-                        <span>Name</span>
-                        <p>
-                            message
-                        </p>
-                    </div></li>
+                    <li ng-repeat="chatmessage in chatText">
+                        <div class="text">
+                            <span ng-if="chatmessage.sentBy">{{chatmessage.sentBy}}</span>
+                            <p ng-if="chatmessage.sentBy">
+                                {{chatmessage.text}}
+                            </p>
+                            <span ng-if="chatmessage.name">{{chatmessage.name}} joined !!</span>
+                            <span ng-if="chatmessage.left">{{chatmessage.left}} left !!</span>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <div class="message form-group">
-                <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Message...">
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button">Send</button>
-                  </span>
-                </div>
+                <form name ="textForm">
+                    <div class="input-group">
+                      <input type="text" class="form-control" placeholder="Message..." ng-model="txt"/>
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit" ng-click="sendMessage(txt)">Send</button>
+                      </span>
+                    </div>
+                </form>
+                <a id="bottom"></a>
             </div>
         </div>
     </div>
-
-
-
-
-<!--
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button  onclick="click()">Send</button>
-    </form>
-
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io();
-
-      $('form').submit(function(){
-        socket.emit('chat message', $('#m').val());
-        $('#m').val('');
-
-        return false;
-      });
-      socket.on('chat message', function(msg){
-        $('#messages').append($('<li>').text(msg));
-      });
-    </script>
-    -->
   </body>
 </html>
