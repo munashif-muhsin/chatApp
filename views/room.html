@@ -24,18 +24,18 @@
     <link rel="stylesheet" href="./style.css">
 
   </head>
-  <body class="black">
+  <body class="black" onload="start()">
     <div class="container">
-        <div ng-controller="roomCtrl" class="jumbotron chatClass">
+        <div class="jumbotron chatClass">
             <div class="chat" overflow="auto" id="chatDiv">
                 <ul type="none">
                     <li ng-repeat="chatmessage in chatText">
                         <div class="text">
                             <span ng-if="chatmessage.sentBy">{{chatmessage.sentBy}}</span>
                             <p ng-if="chatmessage.sentBy">
-                                {{chatmessage.text}}
+                                {{chatmessage.message}}
                             </p>
-                            <span ng-if="chatmessage.name">{{chatmessage.name}} joined !!</span>
+                            <span style="textalign:center" ng-if="chatmessage.name">{{chatmessage.name}} joined !!</span>
                             <span ng-if="chatmessage.left">{{chatmessage.left}} left !!</span>
                         </div>
                     </li>

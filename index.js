@@ -8,8 +8,6 @@ var mongoose = require('mongoose');
 app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/scripts'));
 
-
-
 mongoose.connect("mongodb://127.0.0.1:27017");
 
 app.get('/', function(req, res){
@@ -41,16 +39,24 @@ io.on('connection', function(socket){
   console.log('a user connected');
 
   socket.on('join room', function(data) {
+      console.log("joined room");
     socket.join(data.room);
     socket.broadcast.to(data.room).emit('user joined', data);
     socket.username = data.name;
     socket.room = data.room;
+
+    Chat.find({ room: data.room },function (err, chats) {
+        if (err) return console.error(err);
+        console.log('emitting history');
+        socket.emit('chat history',chats);
+       });
   });
 
   socket.on('chat message', function(data){
+    console.log("sent message");
      var newMsg = new Chat({
         created: data.date,
-        message: data.text,
+        message: data.message,
         sentBy: data.sentBy,
         room: data.room
       });
