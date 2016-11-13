@@ -24,9 +24,12 @@
     <link rel="stylesheet" href="./style.css">
 
   </head>
-  <body class="black" onload="start()">
+  <body onload="start()">
     <div class="container">
-        <div class="jumbotron chatClass">
+        <div class="chatClass">
+            <div class="header">
+                {{roomName}}
+            </div>
             <div class="chat" overflow="auto" id="chatDiv">
                 <ul type="none">
                     <li ng-repeat="chatmessage in chatText">

@@ -21,10 +21,11 @@ myApp.config(function($routeProvider) {
 myApp.controller('loginCtrl', ['$scope', '$location', 'loginService', function($scope, $location, loginService) {
   console.log("Hello World from controller");
   $scope.login = function(data) {
-    loginService.update(data.username, data.room);
-    $location.path('/room');
+    if (data.username != "" && data.room != "") {
+      loginService.update(data.username, data.room);
+      $location.path('/room');
+    }
   }
-
 }]);
 
 //Chat Page Controller
@@ -32,10 +33,12 @@ myApp.controller('roomCtrl', ['$scope', 'loginService', '$location', '$anchorScr
   console.log("Hello World from controller");
   loginService.init();
   var data = loginService.get();
+  document.body.style.background = '#000';
 
   $scope.chatText = [];
   console.log("name: " + data.name);
   console.log("room: " + data.room);
+  $scope.roomName = data.room;
 
 
   angular.element(document).ready(function() {
@@ -44,10 +47,10 @@ myApp.controller('roomCtrl', ['$scope', 'loginService', '$location', '$anchorScr
 
 
   socket.on('chat history', function(chatdata) {
-    for(var i=0;i<chatdata.length;i++){
-        if(chatdata[i].sentBy == data.name)
-            chatdata[i].sentBy = "me";
-        $scope.chatText.push(chatdata[i]);
+    for (var i = 0; i < chatdata.length; i++) {
+      if (chatdata[i].sentBy == data.name)
+        chatdata[i].sentBy = "me";
+      $scope.chatText.push(chatdata[i]);
     }
     console.log("chat text: " + JSON.stringify($scope.chatText));
     $scope.$apply();

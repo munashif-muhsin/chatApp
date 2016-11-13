@@ -16,7 +16,7 @@
 }
 
 .black{
-    background: #2d2c2c;
+    background-color: #2d2c2c;
 }
 
 .chatClass{
@@ -28,7 +28,6 @@
 
 .chat{
     height:90%;
-    border-radius: 5px;
     background: white;
     overflow: auto;
 }
@@ -48,4 +47,34 @@ li{
 
 span{
     color: red;
+}
+
+.input-group{
+    padding: 5px;
+    background: white;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.btn{
+    background: #4280D7;
+    text-shadow: 0 0 0;
+    color: white;
+    border: 0px;
+}
+.btn:hover {
+    background: #1a237e;
+    color: white;
+}
+
+.header{
+    text-align: center;
+    background: #4280D7;
+    color: white;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+
 }
