@@ -34,17 +34,13 @@ myApp.controller('roomCtrl', ['$scope', 'loginService', '$location', '$anchorScr
   loginService.init();
   var data = loginService.get();
   document.body.style.background = '#000';
-
   $scope.chatText = [];
   console.log("name: " + data.name);
   console.log("room: " + data.room);
   $scope.roomName = data.room;
-
-
   angular.element(document).ready(function() {
     socket.emit("join room", data);
   });
-
 
   socket.on('chat history', function(chatdata) {
     for (var i = 0; i < chatdata.length; i++) {
@@ -55,7 +51,6 @@ myApp.controller('roomCtrl', ['$scope', 'loginService', '$location', '$anchorScr
     console.log("chat text: " + JSON.stringify($scope.chatText));
     $scope.$apply();
     $("#chatDiv").scrollTop($("#chatDiv").children().height());
-
   });
 
   socket.on('user joined', function(msg) {
@@ -82,8 +77,6 @@ myApp.controller('roomCtrl', ['$scope', 'loginService', '$location', '$anchorScr
 
   });
 
-
-
   $scope.sendMessage = function(message) {
     if ($scope.txt != "") {
       var messageObj = {
@@ -100,14 +93,8 @@ myApp.controller('roomCtrl', ['$scope', 'loginService', '$location', '$anchorScr
       $('#chatDiv').animate({
         "scrollTop": $('#chatDiv')[0].scrollHeight
       }, "fast");
-
-
     }
-
   }
-
-
-
 }]);
 
 //loginService
@@ -132,19 +119,3 @@ myApp.factory('loginService', function() {
     }
   };
 });
-
-//socket service
-/*
-myApp.factory('socket', ['$rootScope', function($rootScope) {
-  var socket = io.connect();
-
-  return {
-    on: function(eventName, callback){
-      socket.on(eventName, callback);
-    },
-    emit: function(eventName, data) {
-      socket.emit(eventName, data);
-    }
-  };
-}]);
-*/

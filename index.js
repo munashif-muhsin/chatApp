@@ -8,6 +8,7 @@ var mongoose = require('mongoose');
 app.use(express.static(__dirname + '/views'));
 app.use(express.static(__dirname + '/scripts'));
 
+//connect mongoDB
 mongoose.connect("mongodb://127.0.0.1:27017");
 
 app.get('/', function(req, res){
@@ -25,15 +26,11 @@ var ChatSchema = mongoose.Schema({
 //chat model
 var Chat = mongoose.model('Chat', ChatSchema);
 
-
 //access control
 app.all('*', function(req, res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header('Access-Control-Allow-Methods', 'GET,POST');
 });
-
-
-
 
 io.on('connection', function(socket){
   console.log('a user connected');
@@ -60,13 +57,13 @@ io.on('connection', function(socket){
         sentBy: data.sentBy,
         room: data.room
       });
+
       //Save it to database
      newMsg.save(function(err, msg){
         //Send message to those connected in the room
         console.log("message recieved: "+ JSON.stringify(data));
         socket.broadcast.to(msg.room).emit('chat message', data);
      });
-
   });
 
   socket.on('disconnect', function(){
@@ -78,11 +75,6 @@ io.on('connection', function(socket){
     console.log("user left: "+socket.username);
   });
 });
-
-
-
-
-
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
